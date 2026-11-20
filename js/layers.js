@@ -377,6 +377,30 @@ addLayer("op", {
             cost: new Decimal("eeee15"),
             unlocked() { return hasUpgrade("op", 61) },
         },
+        63: {
+            title: "Tower Climber I",
+            description: "Add +500 to your point tower height (F) every second!",
+            cost: new Decimal("1F10"),
+            unlocked() { return hasUpgrade("op", 62) },
+        },
+        64: {
+            title: "Tower Multiplier II",
+            description: "Multiply your point tower height (F) by 10x.",
+            cost: new Decimal("1F500"),
+            unlocked() { return hasUpgrade("op", 63) },
+        },
+        71: {
+            title: "Tower Surge III",
+            description: "Multiply your point tower height (F) by 50x.",
+            cost: new Decimal("1F5000"),
+            unlocked() { return hasUpgrade("op", 64) },
+        },
+        72: {
+            title: "F1,000,000 Finale",
+            description: "Square your point tower height (F^2) to shatter 1F1,000,000!",
+            cost: new Decimal("1F10000"),
+            unlocked() { return hasUpgrade("op", 71) },
+        },
 
     },
     layerShown() { return player.p.unlocked || player.op.unlocked }
