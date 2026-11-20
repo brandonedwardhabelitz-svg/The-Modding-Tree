@@ -23,6 +23,39 @@ addLayer("p", {
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
+    ],    upgrades: {
+        11: {
+            title: "First Spark",
+            description: "Double your point gain.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Momentum",
+            description: "Triple your point gain.",
+            cost: new Decimal(3),
+            unlocked() { return hasUpgrade("p", 11) },
+        },
+        13: {
+            title: "Synergy",
+            description: "Prestige points boost your point gain.",
+            cost: new Decimal(10),
+            unlocked() { return hasUpgrade("p", 12) },
+            effect() {
+                return player.p.points.add(1).pow(0.5)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" },
+        },
+        14: {
+            title: "Self-Boost",
+            description: "Points boost themselves!",
+            cost: new Decimal(50),
+            unlocked() { return hasUpgrade("p", 13) },
+            effect() {
+                return player.points.add(10).log10().pow(2)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" },
+        },
+    },
+
     layerShown(){return true}
 })
