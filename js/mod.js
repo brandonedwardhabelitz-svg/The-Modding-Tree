@@ -12,16 +12,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "1.0",
+	name: "10^^1e308 Singularity",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v1.0</h3><br>
+		- Added Omega Prestige and extended Standard notation.<br>
+		- Reached the 10^^1e308 limit of break_eternity.js!`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have reached 10^^1e308 and beaten The Omega Tree!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -42,7 +42,7 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
-		if (hasUpgrade('p', 11)) gain = gain.times(2)
+	if (hasUpgrade('p', 11)) gain = gain.times(2)
 	if (hasUpgrade('p', 12)) gain = gain.times(3)
 	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
 	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
@@ -66,7 +66,7 @@ function getPointGen() {
 	if (hasUpgrade('op', 33)) gain = gain.pow(1000)
 	if (hasUpgrade('op', 34)) gain = gain.pow(10000)
 	if (hasUpgrade('op', 41)) gain = gain.pow(1e6)
-		if (hasUpgrade('op', 42)) gain = Decimal.pow(10, gain.max(10).log10().pow(10))
+	if (hasUpgrade('op', 42)) gain = Decimal.pow(10, gain.max(10).log10().pow(10))
 	if (hasUpgrade('op', 43)) gain = Decimal.pow(10, gain.max(10).log10().pow(1000))
 	if (hasUpgrade('op', 44)) gain = gain.tetrate(1.2)
 	if (hasUpgrade('op', 51)) gain = gain.tetrate(1.5)
@@ -79,8 +79,7 @@ function getPointGen() {
 	if (hasUpgrade('op', 64)) gain = Decimal.fromComponents(1, Math.min(gain.layer * 10, 1e300), gain.mag)
 	if (hasUpgrade('op', 71)) gain = Decimal.fromComponents(1, Math.min(gain.layer * 50, 1e300), gain.mag)
 	if (hasUpgrade('op', 72)) gain = Decimal.fromComponents(1, Math.min(gain.layer * gain.layer, 1e300), gain.mag)
-Decimal.tetrate(10, gain.max(10).slog().pow(2).min(1e300))
-Decimal.tetrate(10, gain.add(10).slog().pow(2))
+	if (hasUpgrade('op', 73)) gain = Decimal.fromComponents(1, Math.min(gain.layer * 1e8, 1e308), gain.mag)
 
 	return gain
 }
@@ -91,17 +90,13 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-      "Endgame: 1F1,000,000 points"
+	"Endgame: 10^^1e308 (F100.00 NoNog) points"
 ]
-
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(Decimal.tetrate(10, 1e6))
+	return player.points.gte(Decimal.fromComponents(1, 1e308, 1))
 }
-
-
-
 
 // Less important things beyond this point!
 
@@ -119,3 +114,9 @@ function maxTickLength() {
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
 }
+        73: {
+            title: "10^^1e308 Singularity",
+            description: "Push your tower height to 10^^1e308 — the absolute limit of break_eternity.js!",
+            cost: new Decimal("1F1e100"),
+            unlocked() { return hasUpgrade("op", 72) },
+        },
