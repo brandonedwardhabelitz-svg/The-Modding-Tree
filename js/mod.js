@@ -1,6 +1,6 @@
 let modInfo = {
-	name: "The ??? Tree",
-	author: "nobody",
+	name: "The Omega Tree",
+	author: "Doomsday690",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
@@ -65,6 +65,16 @@ function getPointGen() {
 	if (hasUpgrade('op', 32)) gain = gain.pow(100)
 	if (hasUpgrade('op', 33)) gain = gain.pow(1000)
 	if (hasUpgrade('op', 34)) gain = gain.pow(10000)
+	if (hasUpgrade('op', 41)) gain = gain.pow(1e6)
+	if (hasUpgrade('op', 42)) gain = Decimal.pow(10, gain.add(10).log10().pow(10))
+	if (hasUpgrade('op', 43)) gain = Decimal.pow(10, gain.add(10).log10().pow(1000))
+	if (hasUpgrade('op', 44)) gain = gain.tetrate(1.2)
+	if (hasUpgrade('op', 51)) gain = gain.tetrate(1.5)
+	if (hasUpgrade('op', 52)) gain = gain.tetrate(2.0)
+	if (hasUpgrade('op', 53)) gain = gain.tetrate(2.5)
+	if (hasUpgrade('op', 54)) gain = gain.tetrate(3.0)
+	if (hasUpgrade('op', 61)) gain = gain.tetrate(3.5)
+	if (hasUpgrade('op', 62)) gain = gain.tetrate(4.5)
 
 	return gain
 }
@@ -75,13 +85,13 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-      "Endgame: ee33 points"
+      "Endgame: eeee9e5 points"
 ]
 
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("ee33"))
+	return player.points.gte(new Decimal("eeee9e5"))
 }
 
 
