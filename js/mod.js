@@ -58,6 +58,13 @@ function getPointGen() {
 	if (hasUpgrade('p', 34)) gain = gain.pow(1.05)
 	if (hasUpgrade('p', 44)) gain = gain.pow(1.08)
 	if (hasUpgrade('p', 54)) gain = gain.pow(1.15)
+	if (hasUpgrade('op', 11)) gain = gain.pow(1.5)
+	if (hasUpgrade('op', 14)) gain = gain.pow(2)
+	if (hasUpgrade('op', 23)) gain = gain.pow(5)
+	if (hasUpgrade('op', 24)) gain = gain.pow(15)
+	if (hasUpgrade('op', 32)) gain = gain.pow(100)
+	if (hasUpgrade('op', 33)) gain = gain.pow(1000)
+	if (hasUpgrade('op', 34)) gain = gain.pow(10000)
 
 	return gain
 }
