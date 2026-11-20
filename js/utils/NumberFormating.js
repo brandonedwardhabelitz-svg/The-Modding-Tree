@@ -47,7 +47,7 @@ function sumValues(x) {
     let low = ones[rem % 10] + tens[Math.floor(rem / 10) % 10] + hundreds[Math.floor(rem / 100) % 10]
     let hi = Math.floor(t / 1000)
     if (hi === 0) return low
-    let big = ["", "Mi", "Mc", "Na", "Pc", "Fm", "At", "Zp", "Yc", "Xn", "Vec", "Mec"]
+let big = ["", "Mi", "Mc", "Na", "Pc", "Fm", "At", "Zp", "Yc", "Xn", "Vec", "Mec", "Duec", "Trec", "Tetrec", "Pentec", "Hexec", "Heptec", "Octec", "Ennec", "Ic"]
     let out = ""
     let idx = 1
     while (hi > 0 && idx < big.length) {
@@ -71,7 +71,8 @@ function standardFormat(decimal, precision) {
     } else if (tier.lt(1e15)) {
         suffix = standardTierName(tier.sub(1).toNumber())
     } else {
-        let big = ["", "Mi", "Mc", "Na", "Pc", "Fm", "At", "Zp", "Yc", "Xn", "Vec", "Mec"]
+        let big = ["", "Mi", "Mc", "Na", "Pc", "Fm", "At", "Zp", "Yc", "Xn", "Vec", "Mec", "Duec", "Trec", "Tetrec", "Pentec", "Hexec", "Heptec", "Octec", "Ennec", "Ic"]
+
         let exp3 = tier.log10().div(3).floor().toNumber()
         let lead = tier.div(Decimal.pow(1000, exp3)).floor().toNumber()
         let prefix = lead === 1 ? "" : standardTierName(lead)
@@ -122,7 +123,9 @@ function format(decimal, precision = 2, small) {
         else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(3) + "F" + commaFormat(slog.floor(), 0)
     }
   
-        else if (decimal.gte(1e9) && decimal.lt("ee33")) return standardFormat(decimal, precision)
+            else if (decimal.gte("ee60") && decimal.lt(Decimal.fromComponents(1, 4, 9e5))) return "e" + format(decimal.log10(), precision)
+    else if (decimal.gte(1e9) && decimal.lt(Decimal.fromComponents(1, 4, 9e5))) return standardFormat(decimal, precision)
+
     else if (decimal.gte(1e9)) return exponentialFormat(decimal, precision)
 
     else if (decimal.gte(1e3)) return commaFormat(decimal, 0)
