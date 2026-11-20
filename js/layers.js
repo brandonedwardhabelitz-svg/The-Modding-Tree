@@ -20,6 +20,8 @@ addLayer("p", {
         if (hasUpgrade('p', 32)) mult = mult.times(10)
         if (hasUpgrade('p', 42)) mult = mult.times(upgradeEffect('p', 42))
         if (hasUpgrade('p', 51)) mult = mult.times(1000)
+        if (hasUpgrade('op', 12)) mult = mult.pow(1.5)
+        if (hasUpgrade('op', 21)) mult = mult.pow(2.5)
 
         return mult
     },
@@ -177,7 +179,143 @@ addLayer("p", {
             unlocked() { return hasUpgrade("p", 53) },
         },
     },
+    doReset(resettingLayer) {
+        let keep = []
+        if (hasMilestone("op", 0) && resettingLayer == "op") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset(this.layer, keep)
+    },
+    passiveGeneration() {
+        return hasMilestone("op", 1) ? 1 : 0
+    },
 
 
     layerShown(){return true}
 })
+
+addLayer("op", {
+    name: "omega prestige",
+    symbol: "OP",
+    position: 0,
+    startData() { return {
+        unlocked: false,
+        points: new Decimal(0),
+    }},
+    color: "#9D4EDD",
+    requires: new Decimal("1e20000000"),
+    resource: "omega prestige points",
+    baseResource: "prestige points",
+    baseAmount() { return player.p.points },
+    type: "normal",
+    exponent: 0.0000001,
+    branches: ["p"],
+    gainMult() {
+        let mult = new Decimal(1)
+        if (hasUpgrade("op", 13)) mult = mult.times(upgradeEffect("op", 13))
+        if (hasUpgrade("op", 22)) mult = mult.times(upgradeEffect("op", 22))
+        if (hasUpgrade("op", 31)) mult = mult.times(1000)
+        return mult
+    },
+    gainExp() {
+        return new Decimal(1)
+    },
+    row: 1,
+    hotkeys: [
+        {key: "o", description: "O: Reset for omega prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    milestones: {
+        0: {
+            requirementDescription: "1 Omega Prestige Point",
+            effectDescription: "Keep all 20 Prestige upgrades on Omega reset!",
+            done() { return player.op.points.gte(1) }
+        },
+        1: {
+            requirementDescription: "5 Omega Prestige Points",
+            effectDescription: "Gain 100% of your Prestige point gain every second automatically!",
+            done() { return player.op.points.gte(5) }
+        },
+        2: {
+            requirementDescription: "25 Omega Prestige Points",
+            effectDescription: "Unlock the final row of Omega upgrades to reach 1.00 Mec!",
+            done() { return player.op.points.gte(25) }
+        },
+    },
+    upgrades: {
+        11: {
+            title: "Omega Awakening",
+            description: "Raise point gain to the ^1.5.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Omega Prestige",
+            description: "Raise prestige point gain to the ^1.5.",
+            cost: new Decimal(2),
+            unlocked() { return hasUpgrade("op", 11) },
+        },
+        13: {
+            title: "Omega Synergy",
+            description: "Omega Prestige points boost themselves!",
+            cost: new Decimal(4),
+            unlocked() { return hasUpgrade("op", 12) },
+            effect() { return player.op.points.add(1).pow(0.75) },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" },
+        },
+        14: {
+            title: "Tetration Spark",
+            description: "Raise point gain to the ^2.",
+            cost: new Decimal(8),
+            unlocked() { return hasUpgrade("op", 13) },
+        },
+        21: {
+            title: "Nano Breaker",
+            description: "Raise prestige point gain to the ^2.5.",
+            cost: new Decimal(15),
+            unlocked() { return hasUpgrade("op", 14) },
+        },
+        22: {
+            title: "Point Resonance",
+            description: "Your points boost Omega Prestige point gain.",
+            cost: new Decimal(30),
+            unlocked() { return hasUpgrade("op", 21) },
+            effect() { return player.points.add(10).log10().add(1).pow(0.25) },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id)) + "x" },
+        },
+        23: {
+            title: "Pico Surge",
+            description: "Raise point gain to the ^5.",
+            cost: new Decimal(75),
+            unlocked() { return hasUpgrade("op", 22) },
+        },
+        24: {
+            title: "Femto Overdrive",
+            description: "Raise point gain to the ^15.",
+            cost: new Decimal(200),
+            unlocked() { return hasUpgrade("op", 23) },
+        },
+        31: {
+            title: "Atto Ascension",
+            description: "Multiply Omega Prestige gain by 1,000.",
+            cost: new Decimal(500),
+            unlocked() { return hasMilestone("op", 2) && hasUpgrade("op", 24) },
+        },
+        32: {
+            title: "Zepto Tower",
+            description: "Raise point gain to the ^100.",
+            cost: new Decimal(1e5),
+            unlocked() { return hasUpgrade("op", 31) },
+        },
+        33: {
+            title: "Yocto Singularity",
+            description: "Raise point gain to the ^1,000.",
+            cost: new Decimal(1e8),
+            unlocked() { return hasUpgrade("op", 32) },
+        },
+        34: {
+            title: "Mecca Horizon",
+            description: "Raise point gain to the ^10,000 to reach 1.00 Mec (ee33)!",
+            cost: new Decimal(1e12),
+            unlocked() { return hasUpgrade("op", 33) },
+        },
+    },
+    layerShown() { return player.p.unlocked || player.op.unlocked }
+})
+
