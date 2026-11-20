@@ -75,10 +75,11 @@ function getPointGen() {
 	if (hasUpgrade('op', 54)) gain = gain.tetrate(3.0)
 	if (hasUpgrade('op', 61)) gain = gain.tetrate(3.5)
 	if (hasUpgrade('op', 62)) gain = gain.tetrate(4.5)
-	if (hasUpgrade('op', 63)) gain = Decimal.tetrate(10, gain.add(10).slog().add(500))
-	if (hasUpgrade('op', 64)) gain = Decimal.tetrate(10, gain.add(10).slog().mul(10))
-	if (hasUpgrade('op', 71)) gain = Decimal.tetrate(10, gain.add(10).slog().mul(50))
-	if (hasUpgrade('op', 72)) gain = Decimal.tetrate(10, gain.add(10).slog().pow(2))
+		if (hasUpgrade('op', 63)) gain = Decimal.tetrate(10, gain.max(10).slog().add(500))
+	if (hasUpgrade('op', 64)) gain = Decimal.tetrate(10, gain.max(10).slog().mul(10))
+	if (hasUpgrade('op', 71)) gain = Decimal.tetrate(10, gain.max(10).slog().mul(50))
+	if (hasUpgrade('op', 72)) gain = Decimal.tetrate(10, gain.max(10).slog().pow(2).min(1e300))
+Decimal.tetrate(10, gain.add(10).slog().pow(2))
 
 	return gain
 }
