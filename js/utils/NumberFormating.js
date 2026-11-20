@@ -39,6 +39,21 @@ function sumValues(x) {
     if (!x[0]) return decimalZero
     return x.reduce((a, b) => Decimal.add(a, b))
 }
+function standardFormat(decimal, precision) {
+    let e = decimal.log10().floor()
+    let tier = e.div(3).floor().toNumber()
+    let ones = ["", "U", "D", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"]
+    let tens = ["", "Dc", "Vg", "Tg", "Qag", "Qig", "Sxg", "Spg", "Ocg", "Nog"]
+    let hundreds = ["", "Ce", "Dn", "Tc", "Qe", "Qu", "Sc", "Si", "Oe", "Ne"]
+    let suffix = ""
+    if (tier < 10) suffix = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"][tier]
+    else {
+        let t = tier - 1
+        suffix = ones[t % 10] + tens[Math.floor(t / 10) % 10] + hundreds[Math.floor(t / 100) % 10]
+    }
+    let mantissa = decimal.div(Decimal.pow(10, tier * 3))
+    return mantissa.toStringWithDecimalPlaces(precision) + " " + suffix
+}
 
 function format(decimal, precision = 2, small) {
     small = small || modInfo.allowSmall
@@ -56,7 +71,9 @@ function format(decimal, precision = 2, small) {
     }
     else if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
     else if (decimal.gte("1e10000")) return exponentialFormat(decimal, 0)
+        else if (decimal.gte(1e9) && decimal.lt("1e3003")) return standardFormat(decimal, precision)
     else if (decimal.gte(1e9)) return exponentialFormat(decimal, precision)
+
     else if (decimal.gte(1e3)) return commaFormat(decimal, 0)
     else if (decimal.gte(0.0001) || !small) return regularFormat(decimal, precision)
     else if (decimal.eq(0)) return (0).toFixed(precision)
