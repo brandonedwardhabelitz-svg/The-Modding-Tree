@@ -213,6 +213,9 @@ addLayer("op", {
         if (hasUpgrade("op", 13)) mult = mult.times(upgradeEffect("op", 13))
         if (hasUpgrade("op", 22)) mult = mult.times(upgradeEffect("op", 22))
         if (hasUpgrade("op", 31)) mult = mult.times(1000)
+                if (hasUpgrade("op", 42)) mult = mult.pow(10)
+        if (hasUpgrade("op", 51)) mult = mult.tetrate(1.5)
+
         return mult
     },
     gainExp() {
@@ -314,7 +317,67 @@ addLayer("op", {
             description: "Raise point gain to the ^10,000 to reach 1.00 Mec (ee33)!",
             cost: new Decimal(1e12),
             unlocked() { return hasUpgrade("op", 33) },
+        },        41: {
+            title: "Duec Ascension",
+            description: "Raise point gain to the ^1,000,000.",
+            cost: new Decimal("1e20"),
+            unlocked() { return hasUpgrade("op", 34) },
         },
+        42: {
+            title: "Icos Explosion",
+            description: "Raise point exponent to the ^10 and Omega gain to the ^10.",
+            cost: new Decimal("1e50"),
+            unlocked() { return hasUpgrade("op", 41) },
+        },
+        43: {
+            title: "Triple-e Omega",
+            description: "Raise point exponent to the ^1,000.",
+            cost: new Decimal("1e300"),
+            unlocked() { return hasUpgrade("op", 42) },
+        },
+        44: {
+            title: "Omega Tetration I",
+            description: "Tetrate point gain by 1.2.",
+            cost: new Decimal("ee5"),
+            unlocked() { return hasUpgrade("op", 43) },
+        },
+        51: {
+            title: "Omega Tetration II",
+            description: "Tetrate point gain by 1.5 and Omega gain by 1.5.",
+            cost: new Decimal("ee15"),
+            unlocked() { return hasUpgrade("op", 44) },
+        },
+        52: {
+            title: "Omega Tetration III",
+            description: "Tetrate point gain by 2.0.",
+            cost: new Decimal("eee5"),
+            unlocked() { return hasUpgrade("op", 51) },
+        },
+        53: {
+            title: "Omega Tetration IV",
+            description: "Tetrate point gain by 2.5.",
+            cost: new Decimal("eee15"),
+            unlocked() { return hasUpgrade("op", 52) },
+        },
+        54: {
+            title: "Omega Tetration V",
+            description: "Tetrate point gain by 3.0.",
+            cost: new Decimal("eee50"),
+            unlocked() { return hasUpgrade("op", 53) },
+        },
+        61: {
+            title: "Hyper-Omega VI",
+            description: "Tetrate point gain by 3.5.",
+            cost: new Decimal("eeee5"),
+            unlocked() { return hasUpgrade("op", 54) },
+        },
+        62: {
+            title: "eeee9e5 Omega Finale",
+            description: "Tetrate point gain by 4.5 to shatter eeee9e5!",
+            cost: new Decimal("eeee15"),
+            unlocked() { return hasUpgrade("op", 61) },
+        },
+
     },
     layerShown() { return player.p.unlocked || player.op.unlocked }
 })
