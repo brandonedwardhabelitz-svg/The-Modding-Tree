@@ -114,9 +114,4 @@ function maxTickLength() {
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
 }
-        73: {
-            title: "10^^1e308 Singularity",
-            description: "Push your tower height to 10^^1e308 — the absolute limit of break_eternity.js!",
-            cost: new Decimal("1F1e100"),
-            unlocked() { return hasUpgrade("op", 72) },
-        },
+        
